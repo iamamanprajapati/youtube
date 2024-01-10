@@ -1,32 +1,35 @@
-import React, { useEffect, useState } from "react";
-import { YOUTUBE_VIDEOS_API } from "../utils/constants";
+import React, { useEffect } from "react";
 import VideoCard from "./VideoCard";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getVideos } from "../utils/videosSlice";
 
 const VideoContainer = () => {
-  const [videos, setVideos] = useState([]);
+  const dispatch = useDispatch();
+  const { videos, status, error } = useSelector((state) => state.videos);
 
   useEffect(() => {
-    getVideos();
-  }, []);
+    // Fetch videos if the status is "idle"
+    if (status === "idle") {
+      dispatch(getVideos());
+    }
+  }, [dispatch, status]); // Dependency array includes dispatch and status
 
-  const getVideos = async () => {
-    const data = await fetch(YOUTUBE_VIDEOS_API);
-    const json = await data.json();
-    setVideos(json.items);
-  };
+  if (status === "loading") {
+    return <div>Loading...</div>;
+  }
 
-  if (videos.length === 0) return <h1>Loading ...</h1>;
+  if (status === "failed") {
+    return <div>Error: {error}</div>;
+  }
 
   return (
     <div className="flex flex-wrap justify-around">
-      {videos.map((video) => {
-        return (
-          <Link key={video.id} to={"/watch?v=" + video.id}>
-            <VideoCard key={video.id} info={video} />
-          </Link>
-        );
-      })}
+      {videos.map((video) => (
+        <Link key={video.id} to={"/watch?v=" + video.id}>
+          <VideoCard key={video.id} info={video} />
+        </Link>
+      ))}
     </div>
   );
 };

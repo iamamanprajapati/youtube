@@ -1,5 +1,8 @@
 import React from "react";
 import Button from "./Button";
+import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { getSearchVideos } from "../utils/searchVideoSlice";
 
 const list = [
   "All",
@@ -26,7 +29,9 @@ const ButtonList = () => {
     <div className="overflow-x-auto whitespace-nowrap buttonlist grid grid-cols-1 scrollbar-hide">
       <div className="flex space-x-2">
         {list.map((element, index) => {
-          return <Button key={index} name={element} />;
+          return (
+              <Button key={index} name={element} />
+          );
         })}
       </div>
     </div>

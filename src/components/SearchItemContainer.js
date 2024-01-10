@@ -1,9 +1,9 @@
 import React from "react";
-import ButtonList from "./ButtonList";
-import VideoContainer from "./VideoContainer";
 import { useSelector } from "react-redux";
+import SearchItemCard from "./SearchItemCard";
+import ButtonList from "./ButtonList";
 
-const MainContainer = () => {
+const SearchItemContainer = () => {
   const isMenuOpen = useSelector((store) => store.app.isMenuOpen);
 
   return (
@@ -13,9 +13,9 @@ const MainContainer = () => {
       }`}
     >
       <ButtonList />
-      <VideoContainer />
+      <SearchItemCard/>
     </div>
   );
 };
 
-export default MainContainer;
+export default SearchItemContainer;

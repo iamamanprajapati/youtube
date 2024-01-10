@@ -7,21 +7,37 @@ const VideoCard = ({ info }) => {
   const [channelInfo, setChannelInfo] = useState([]);
 
   useEffect(() => {
-    getData();
-    console.log("useeffect");
-  }, []);
+    let isMounted = true;
 
-  const getData = async () => {
-    const data = await fetch(
-      `https://youtube.googleapis.com/youtube/v3/channels?part=snippet%2CcontentDetails&id=${snippet.channelId}&key=AIzaSyAth2pfBQnWSzhYCBgGgs_cXmwonuqz9RY`
-    );
-    const json = await data.json();
-    setChannelInfo(json.items);
-  };
+    const getData = async () => {
+      try {
+        const data = await fetch(
+          `https://youtube.googleapis.com/youtube/v3/channels?part=snippet%2CcontentDetails&id=${snippet.channelId}&key=AIzaSyBYjDH_bwUC2aTL7qd8n0v_NmoKolyXRGg`
+        );
+
+        if (!isMounted) {
+          return; // Do nothing if the component is unmounted
+        }
+
+        const json = await data.json();
+        setChannelInfo(json.items);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    getData();
+
+    return () => {
+      // Cleanup function to cancel the fetch request
+      isMounted = false;
+    };
+  }, []); // Empty dependency array ensures useEffect runs only once
 
   return (
     <div className="videocard  m-2 my-5 w-60">
       <img
+        key={info.id}
         className="rounded-lg w-full"
         src={snippet.thumbnails.medium.url}
         alt="thumbnail"
@@ -30,6 +46,7 @@ const VideoCard = ({ info }) => {
         {channelInfo.map((info) => {
           return (
             <img
+              key={info.id}
               className="h-12 w-12 rounded-full my-2"
               src={info.snippet.thumbnails.high.url}
               alt="profile"
@@ -42,7 +59,9 @@ const VideoCard = ({ info }) => {
         <h1 className="my-2 line-clamp-1 text-sm">{channelTitle}</h1>
         <div className="flex">
           <h1 className="text-sm">{getViews(statistics.viewCount)} views · </h1>
-          <h1 className="mx-2 line-clamp-1 text-sm">{getTimeSinceUpload(snippet.publishedAt)}</h1>
+          <h1 className="mx-2 line-clamp-1 text-sm">
+            {getTimeSinceUpload(snippet.publishedAt)}
+          </h1>
         </div>
       </div>
     </div>
