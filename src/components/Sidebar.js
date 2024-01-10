@@ -92,19 +92,19 @@ const Sidebar = () => {
   if (!isMenuOpen) return null;
 
   return (
-    <div className={`scrollbar-hide fixed p-3 h-full w-64 overflow-y-auto transition-transform duration-300 transform ${
-      isMenuOpen ? 'translate-x-0' : '-translate-x-full' }`}
+    <div className={`scrollbar-hide fixed p-2 h-full w-60 overflow-y-auto transition-opacity duration-300 ${
+      isMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none' }`}
       >
       <ul>
         {homelist.map((list) => {
           return (
             <Link>
-              <li className="px-5 py-2 w-60 bg-gray-50 m-2 rounded-md flex justify-start hover:bg-gray-200">
+              <li className="px-5 text-base py-2 w-50 bg-gray-50 m-2 rounded-md flex justify-start hover:bg-gray-200">
                 <FontAwesomeIcon
                   className="self-center size-7"
                   icon={list.logo}
                 />{" "}
-                <span className="ml-5">{list.title}</span>
+                <span className="ml-5 font-extralight">{list.title}</span>
               </li>
             </Link>
           );
@@ -115,13 +115,13 @@ const Sidebar = () => {
         {yourlist.map((list) => {
           return (
             <Link>
-              <li className="px-5 py-2 w-60 bg-gray-50 m-2 rounded-md flex justify-start hover:bg-gray-200">
+              <li className="px-5 py-2 w-50 bg-gray-50 m-2 rounded-md flex justify-start hover:bg-gray-200">
                 <FontAwesomeIcon
                   className="self-center size-7"
                   icon={list.logo}
                 />{" "}
                 <div className="line-clamp-1">
-                  <span className="ml-5"></span>
+                  <span className="ml-5 font-extralight"></span>
                   {list.title}
                 </div>
               </li>
@@ -134,12 +134,12 @@ const Sidebar = () => {
         {subscription.map((list) => {
           return (
             <Link>
-              <li className="px-5 py-2 w-60 bg-gray-50 m-2 rounded-md flex justify-start hover:bg-gray-200">
+              <li className="px-5 py-2 w-50 bg-gray-50 m-2 rounded-md flex justify-start hover:bg-gray-200">
                 <FontAwesomeIcon
                   className="self-center size-7"
                   icon={list.logo}
                 />{" "}
-                <span className="ml-5"></span>
+                <span className="ml-5 font-extralight"></span>
                 {list.title}
               </li>
             </Link>
@@ -151,12 +151,12 @@ const Sidebar = () => {
         {explore.map((list) => {
           return (
             <Link>
-              <li className="px-5 py-2 bg-gray-50 m-2 rounded-md flex justify-start hover:bg-gray-200">
+              <li className="px-5 text-base py-2 w-50 bg-gray-50 m-2 rounded-md flex justify-start hover:bg-gray-200">
                 <FontAwesomeIcon
                   className="self-center size-7"
                   icon={list.logo}
                 />{" "}
-                <span className="ml-5"></span>
+                <span className="ml-5 font-extralight size-min"></span>
                 {list.title}
               </li>
             </Link>

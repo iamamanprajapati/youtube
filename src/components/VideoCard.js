@@ -20,7 +20,7 @@ const VideoCard = ({ info }) => {
   };
 
   return (
-    <div className="videocard  m-2 my-5 w-72">
+    <div className="videocard  m-2 my-5 w-60">
       <img
         className="rounded-lg w-full"
         src={snippet.thumbnails.medium.url}
@@ -39,10 +39,10 @@ const VideoCard = ({ info }) => {
         <h1 className=" font-semibold line-clamp-2 my-2 mx-2">{title}</h1>
       </div>
       <div className="mx-5 my-2">
-        <h1 className="my-2">{channelTitle}</h1>
+        <h1 className="my-2 line-clamp-1 text-sm">{channelTitle}</h1>
         <div className="flex">
-          <h1>{getViews(statistics.viewCount)} views · </h1>
-          <h1 className="mx-3">{getTimeSinceUpload(snippet.publishedAt)}</h1>
+          <h1 className="text-sm">{getViews(statistics.viewCount)} views · </h1>
+          <h1 className="mx-2 line-clamp-1 text-sm">{getTimeSinceUpload(snippet.publishedAt)}</h1>
         </div>
       </div>
     </div>
