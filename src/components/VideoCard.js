@@ -35,7 +35,7 @@ const VideoCard = ({ info }) => {
   }, [snippet.channelId]); // Empty dependency array ensures useEffect runs only once
 
   return (
-    <div className="videocard m-1 my-5 w-72">
+    <div className="videocard m-1 my-5 w-60">
       <img
         key={info.id}
         className="rounded-lg w-full"
