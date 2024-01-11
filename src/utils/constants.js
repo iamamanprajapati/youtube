@@ -20,6 +20,8 @@ export const YOUTUBE_CHANNEL_PROFILE = "https://youtube.googleapis.com/youtube/v
 
 export const YOUTUBE_SEARCH_API = "https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&q=surfing&key=AIzaSyBYjDH_bwUC2aTL7qd8n0v_NmoKolyXRGg"
 
+export const YOUTUBE_SEARCH_SUGESSION_API = "http://suggestqueries.google.com/complete/search?client=firefox&ds=yt&q="
+
 
 export function getTimeSinceUpload(publishedAt) {
     const now = new Date();

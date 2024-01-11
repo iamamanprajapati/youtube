@@ -1,27 +1,53 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { toggleMenu } from "../utils/appSlice";
 import { Link } from "react-router-dom";
-import { setItemSearch } from "../utils/searchSlice";
 import { getSearchVideos } from "../utils/searchVideoSlice";
+import { YOUTUBE_SEARCH_SUGESSION_API } from "../utils/constants";
 
 const Head = () => {
-  const [search, setSearch] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [suggestion, setSuggestion] = useState([]);
+  const [showSuggestion, setShowSuggestion] = useState(false);
+
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    const timer = setTimeout(() => getSearchSuggestion(), 200);
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [searchQuery]);
+
+  const getSearchSuggestion = async () => {
+    const data = await fetch(YOUTUBE_SEARCH_SUGESSION_API + searchQuery);
+    const json = await data.json();
+    setSuggestion(json[1]);
+  };
 
   const toggleMenuHandler = () => {
     dispatch(toggleMenu());
   };
 
-  const handleSearch = () => {
-    dispatch(setItemSearch(search));
+  const handleSearchButton = () => {
+    dispatch(getSearchVideos(searchQuery));
+  };
+
+  const handleQuerySearch = (search) => {
     dispatch(getSearchVideos(search));
+    setShowSuggestion(false);
+    setSearchQuery(search);
+  };
+
+  const handleSearch = (e) => {
+    setSearchQuery(e);
+    setShowSuggestion(true);
   };
 
   return (
     <div className="fixed top-0 w-full bg-white p-4 z-20">
       <div className="grid grid-flow-col">
-        <div className="flex col-span-1">
+        <div className="flex col-span-3">
           <img
             onClick={toggleMenuHandler}
             className="h-7 cursor-pointer"
@@ -34,21 +60,44 @@ const Head = () => {
             alt="logo"
           />
         </div>
-        <div className="col-span-10 text-center">
-          <input
-            className="input-text w-1/2 h-[40px] border border-gray-300 p-1 rounded-l-full"
-            type="text"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
-          <Link to="/search">
-            <button
-              onClick={handleSearch}
-              className="border h-[40px] border-gray-600 rounded-r-full bg-gray-200 w-20"
-            >
-              🔍
-            </button>
-          </Link>
+        <div className="col-span-8">
+          <div>
+            <input
+              className="input-text  w-1/2 h-[40px] border border-gray-300 p-5 rounded-l-full"
+              type="text"
+              value={searchQuery}
+              onChange={(e) => handleSearch(e.target.value)}
+            />
+            <Link to="/search">
+              <button
+                onClick={handleSearchButton}
+                className="border h-[40px] border-gray-600 rounded-r-full bg-gray-200 w-20"
+              >
+                🔍
+              </button>
+            </Link>
+          </div>
+          <div className="fixed bg-white rounded-l-lg w-1/3 mt-1">
+            <ul className="">
+              {!showSuggestion
+                ? null
+                : suggestion.map((list) => {
+                    return (
+                      <Link
+                        to="/search"
+                        onClick={() => handleQuerySearch(list)}
+                      >
+                        <span className="flex border-b w-full">
+                          <span className="px-3 py-1">🔍</span>
+                          <li className="px-3 py-1 " key={list}>
+                            {list}
+                          </li>
+                        </span>
+                      </Link>
+                    );
+                  })}
+            </ul>
+          </div>
         </div>
         <div className="col-span-1">
           <img

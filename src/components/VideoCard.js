@@ -32,10 +32,10 @@ const VideoCard = ({ info }) => {
       // Cleanup function to cancel the fetch request
       isMounted = false;
     };
-  }, []); // Empty dependency array ensures useEffect runs only once
+  }, [snippet.channelId]); // Empty dependency array ensures useEffect runs only once
 
   return (
-    <div className="videocard  m-2 my-5 w-60">
+    <div className="videocard m-1 my-5 w-72">
       <img
         key={info.id}
         className="rounded-lg w-full"
